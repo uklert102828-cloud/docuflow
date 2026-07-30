@@ -1,0 +1,31 @@
+services:
+  docuflow:
+    build: .
+    restart: unless-stopped
+    environment:
+      TEAM_PASSWORD: ${TEAM_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET}
+      PUBLIC_ACCESS: "true"
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN}
+    volumes:
+      - docuflow-data:/app/data
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - docuflow
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PUBLIC_HOST: ${PUBLIC_HOST}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  docuflow-data:
+  caddy-data:
+  caddy-config:
