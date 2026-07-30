@@ -45,6 +45,7 @@ app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'");
   if (publicOrigin && req.headers.origin === publicOrigin) {
     res.setHeader('Access-Control-Allow-Origin', publicOrigin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Client-ID');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
